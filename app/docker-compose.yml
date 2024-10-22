@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: stock_api_app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@db:5432/stocks
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    container_name: stock_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: stocks
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

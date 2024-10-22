@@ -5,7 +5,7 @@ stock_bp = Blueprint('stock', __name__)
 
 @stock_bp.route('/stock/<stock_symbol>', methods=['GET'])
 def get_stock(stock_symbol):
-    date = request.args.get('date', '2024-10-14')
+    date = request.args.get('date', '2024-10-22')
     stock_data = get_stock_data(stock_symbol, date)
     
     if stock_data['status'] == 'available':
