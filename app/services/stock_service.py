@@ -1,3 +1,4 @@
+#functions to collect and scraper, polygon api
 import requests
 from bs4 import BeautifulSoup
 from utils.cache import cached

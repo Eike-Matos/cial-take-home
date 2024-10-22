@@ -1,3 +1,4 @@
+#Stock class using flask and blueprint, jsonify
 from flask import Blueprint, request, jsonify
 from services.stock_service import get_stock_data, update_purchased_amount
 
