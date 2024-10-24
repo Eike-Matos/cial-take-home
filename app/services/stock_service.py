@@ -1,4 +1,3 @@
-#functions to collect and scraper, polygon api
 import requests
 from bs4 import BeautifulSoup
 from utils.cache import cached
@@ -12,8 +11,7 @@ def get_stock_data_from_polygon(stock_symbol, date):
     
     try:
         response = requests.get(url, headers=headers)
-        response.raise_for_status() 
-        
+        response.raise_for_status()
         data = response.json()
         
         if all(key in data for key in ('open', 'high', 'low', 'close')):
@@ -24,7 +22,7 @@ def get_stock_data_from_polygon(stock_symbol, date):
                 "close": data['close']
             }
         else:
-            raise ValueError("Dados incompletos da API da Polygon.")
+            raise ValueError("Dados incompletos recebidos da API da Polygon.")
     
     except requests.exceptions.RequestException as e:
         print(f"Erro ao fazer requisição para a API da Polygon: {e}")
@@ -33,13 +31,14 @@ def get_stock_data_from_polygon(stock_symbol, date):
         print(f"Erro de validação: {e}")
         return None
 
+# Função para fazer scraping do MarketWatch
 @cached
 def scrape_marketwatch(stock_symbol):
     url = f'https://www.marketwatch.com/investing/stock/{stock_symbol}'
     
     try:
         response = requests.get(url)
-        response.raise_for_status() 
+        response.raise_for_status()
 
         soup = BeautifulSoup(response.text, 'html.parser')
         
@@ -50,7 +49,7 @@ def scrape_marketwatch(stock_symbol):
             "year_to_date": None,
             "one_year": None
         }
-        
+
         competitors = [
             {
                 "name": "Competitor Placeholder",
@@ -82,12 +81,12 @@ def get_stock_data(stock_symbol, date):
             "purchased_status": "not purchased",
             "request_data": date,
             "company_code": stock_symbol.upper(),
-            "company_name": "Company Placeholder", 
+            "company_name": "Company Placeholder",
             "stock_values": stock_values,
             "performance_data": marketwatch_data['performance_data'],
             "competitors": marketwatch_data['competitors']
         }
-        
+    
     return {"status": "error", "message": "Could not retrieve stock data"}
 
 def update_purchased_amount(stock_symbol, amount):
